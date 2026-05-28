@@ -1,0 +1,9 @@
+/_build/
+/cover/
+/deps/
+/doc/
+erl_crash.dump
+*.ez
+antigravity_cli_sdk-*.tar
+/tmp/
+.dependency_sources.local.exs
