@@ -62,7 +62,7 @@ defmodule AntigravityCliSdk.Runtime.CLI do
   @type start_option ::
           {:prompt, String.t()}
           | {:options, Options.t()}
-          | {:subscriber, pid() | {pid(), reference() | :legacy}}
+          | {:subscriber, {pid(), reference()}}
           | {:metadata, map()}
           | {:session_event_tag, atom()}
 

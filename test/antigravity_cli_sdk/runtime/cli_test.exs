@@ -29,6 +29,17 @@ defmodule AntigravityCliSdk.Runtime.CLITest do
     refute "secret" in rendered.args
   end
 
+  test "start_session/1 rejects untagged subscribers" do
+    assert {:error, %ArgumentError{} = error} =
+             CLI.start_session(
+               prompt: "Hi",
+               options: %Options{cli_command: executable_fixture!("agy-subscriber")},
+               subscriber: self()
+             )
+
+    assert Exception.message(error) =~ "subscriber must be a tagged {pid, reference()} tuple"
+  end
+
   test "project_event/2 accumulates assistant deltas into the final result" do
     delta = event!(:assistant_delta, Payload.AssistantDelta.new(content: "OK"))
     result = event!(:result, Payload.Result.new(status: :completed, output: %{}))

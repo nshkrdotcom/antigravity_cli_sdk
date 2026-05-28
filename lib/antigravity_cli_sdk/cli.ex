@@ -44,7 +44,7 @@ defmodule AntigravityCliSdk.CLI do
       prompt: prompt,
       options: options,
       metadata: Keyword.get(opts, :metadata, %{}),
-      subscriber: Keyword.get(opts, :subscriber),
+      subscriber: normalize_subscriber!(Keyword.get(opts, :subscriber)),
       session_event_tag: Keyword.get(opts, :session_event_tag, RuntimeCLI.session_event_tag()),
       headless_timeout_ms: options.timeout_ms,
       max_stderr_buffer_bytes: options.max_stderr_buffer_bytes
@@ -110,6 +110,14 @@ defmodule AntigravityCliSdk.CLI do
 
   defp maybe_put_cli_path(opts, nil), do: opts
   defp maybe_put_cli_path(opts, cli_command), do: Keyword.put(opts, :cli_path, cli_command)
+
+  defp normalize_subscriber!(nil), do: nil
+  defp normalize_subscriber!({pid, ref}) when is_pid(pid) and is_reference(ref), do: {pid, ref}
+
+  defp normalize_subscriber!(subscriber) do
+    raise ArgumentError,
+          "subscriber must be a tagged {pid, reference()} tuple, got: #{inspect(subscriber)}"
+  end
 
   defp normalize_env(env) when is_map(env) do
     Map.new(env, fn {key, value} -> {to_string(key), to_string(value)} end)

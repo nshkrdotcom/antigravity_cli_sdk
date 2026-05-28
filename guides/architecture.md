@@ -28,3 +28,7 @@ over `cli_subprocess_core`:
 4. `Stream` converts normalized core events into SDK event structs.
 5. `agent_session_manager` can use `AntigravityCliSdk.Runtime.CLI` as the SDK
    runtime for the `:antigravity` provider.
+
+The core lane and SDK lane intentionally share the same parser behavior:
+Antigravity stdout is plain text, non-empty lines become assistant deltas, and
+the SDK accumulates those deltas into the final result event.

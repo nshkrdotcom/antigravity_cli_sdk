@@ -1,3 +1,7 @@
+unless Code.ensure_loaded?(DependencySources) do
+  Code.require_file("build_support/dependency_sources.exs", __DIR__)
+end
+
 defmodule AntigravityCliSdk.MixProject do
   use Mix.Project
 
@@ -46,7 +50,7 @@ defmodule AntigravityCliSdk.MixProject do
 
   defp deps do
     [
-      {:cli_subprocess_core, path: "../cli_subprocess_core"},
+      DependencySources.dep(:cli_subprocess_core, __DIR__),
       {:jason, "~> 1.4"},
       {:zoi, "~> 0.17"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
@@ -65,13 +69,14 @@ defmodule AntigravityCliSdk.MixProject do
       description: description(),
       licenses: ["MIT"],
       links: %{
+        "Hex" => "https://hex.pm/packages/antigravity_cli_sdk",
         "GitHub" => @source_url,
         "HexDocs" => @docs_url,
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
       },
       maintainers: ["nshkrdotcom"],
       files:
-        ~w(lib assets guides config examples mix.exs README.md LICENSE CHANGELOG.md .formatter.exs)
+        ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md .formatter.exs)
     ]
   end
 
