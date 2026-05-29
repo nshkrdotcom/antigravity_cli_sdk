@@ -65,6 +65,15 @@ Run the included live example:
 mix run examples/simple_stream.exs
 ```
 
+Run the full SDK-owned example suite:
+
+```bash
+~/scripts/with_bash_secrets bash examples/run_all.sh
+```
+
+The HexDocs Examples page is sourced from
+[examples/README.md](../examples/README.md).
+
 ## 5. Use With ASM
 
 `agent_session_manager` resolves the SDK runtime as

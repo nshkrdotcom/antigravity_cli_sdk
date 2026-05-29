@@ -83,6 +83,14 @@ mix run examples/simple_stream.exs
 ```
 
 The example uses the real `agy` binary through `cli_subprocess_core`.
+Run the full SDK-owned suite with:
+
+```bash
+~/scripts/with_bash_secrets bash examples/run_all.sh
+```
+
+See [Examples](examples/README.md) for the full inventory. ASM provider
+examples live in `agent_session_manager/examples`.
 
 ## Documentation
 
@@ -92,3 +100,4 @@ The example uses the real `agy` binary through `cli_subprocess_core`.
 - [Sessions](guides/sessions.md)
 - [Authentication](guides/authentication.md)
 - [Architecture](guides/architecture.md)
+- [Examples](examples/README.md)

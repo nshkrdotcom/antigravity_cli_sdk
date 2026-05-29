@@ -97,6 +97,7 @@ defmodule AntigravityCliSdk.MixProject do
         "guides/sessions.md": [title: "Sessions"],
         "guides/authentication.md": [title: "Authentication"],
         "guides/architecture.md": [title: "Architecture"],
+        "examples/README.md": [title: "Examples", filename: "examples"],
         "CHANGELOG.md": [title: "Changelog"],
         LICENSE: [title: "License"]
       ],
@@ -114,6 +115,7 @@ defmodule AntigravityCliSdk.MixProject do
         Architecture: [
           "guides/architecture.md"
         ],
+        Examples: ["examples/README.md"],
         Reference: ["CHANGELOG.md", "LICENSE"]
       ],
       groups_for_modules: [
@@ -166,6 +168,7 @@ defmodule AntigravityCliSdk.MixProject do
         "credo --strict",
         "dialyzer"
       ],
+      "examples.all": ["cmd bash examples/run_all.sh"],
       "test.live": ["test --include live"]
     ]
   end

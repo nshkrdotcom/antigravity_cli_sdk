@@ -1,27 +1,14 @@
-prompt =
-  case System.argv() do
-    [] -> "Reply with exactly: ANTIGRAVITY_SIMPLE_STREAM_OK"
-    args -> Enum.join(args, " ")
-  end
+Code.require_file("support/example_helper.exs", __DIR__)
 
-options = %AntigravityCliSdk.Options{
-  dangerously_skip_permissions: true,
-  timeout_ms: 120_000
-}
+alias AntigravityCliSdk.Examples.Helper
 
-prompt
-|> AntigravityCliSdk.execute(options)
-|> Enum.each(fn
-  %AntigravityCliSdk.Types.MessageEvent{role: :assistant, content: content} ->
-    IO.write(content)
+config = Helper.parse!()
+Helper.print_header("simple_stream", config)
 
-  %AntigravityCliSdk.Types.ResultEvent{result: result} ->
-    IO.puts("")
-    IO.puts("result=#{inspect(result)}")
+events =
+  "Reply with exactly: ANTIGRAVITY_SIMPLE_STREAM_OK"
+  |> AntigravityCliSdk.execute(Helper.options(config))
+  |> Enum.to_list()
 
-  %AntigravityCliSdk.Types.ErrorEvent{} = error ->
-    IO.puts("error=#{inspect(error)}")
-
-  _event ->
-    :ok
-end)
+IO.puts("event_count=#{length(events)}")
+Helper.assert_result_text(events, "ANTIGRAVITY_SIMPLE_STREAM_OK", "result_text")
