@@ -69,5 +69,6 @@ remote-only example. Passing `--ssh-host` routes examples through the shared
 | `list_provider_sessions.exs` | portable session-list contract |
 | `promotion_path/sdk_direct_antigravity.exs` | SDK-only promotion path, no ASM imports |
 
-No example imports `agent_session_manager`. `gemini_cli_sdk` remains unchanged;
-these examples use `agy` only.
+No example imports `agent_session_manager`. Antigravity is the supported Google
+coding-agent SDK; the retired `gemini_cli_sdk` remains retired, and `gemini_ex`
+is a distinct model API SDK. These examples use `agy` only.

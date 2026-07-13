@@ -8,13 +8,14 @@ defmodule AntigravityCliSdk.MixProject do
   @app :antigravity_cli_sdk
   @version "0.1.0"
   @source_url "https://github.com/nshkrdotcom/antigravity_cli_sdk"
+  @homepage_url "https://hex.pm/packages/antigravity_cli_sdk"
   @docs_url "https://hexdocs.pm/antigravity_cli_sdk"
 
   def project do
     [
       app: @app,
       version: @version,
-      elixir: "~> 1.18",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -25,7 +26,7 @@ defmodule AntigravityCliSdk.MixProject do
       dialyzer: dialyzer(),
       name: "AntigravityCliSdk",
       source_url: @source_url,
-      homepage_url: @docs_url
+      homepage_url: @homepage_url
     ]
   end
 
@@ -69,14 +70,23 @@ defmodule AntigravityCliSdk.MixProject do
       description: description(),
       licenses: ["MIT"],
       links: %{
-        "Hex" => "https://hex.pm/packages/antigravity_cli_sdk",
+        "Hex" => @homepage_url,
         "GitHub" => @source_url,
         "HexDocs" => @docs_url,
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
       },
       maintainers: ["nshkrdotcom"],
       files:
-        ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md .formatter.exs)
+        ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md .formatter.exs),
+      exclude_patterns: [
+        "**/_build/**",
+        "**/deps/**",
+        "**/doc/**",
+        "**/*.beam",
+        "**/*.plt",
+        "**/*.plt.hash",
+        "examples/_output/**"
+      ]
     ]
   end
 
@@ -84,7 +94,7 @@ defmodule AntigravityCliSdk.MixProject do
     [
       main: "readme",
       name: "AntigravityCliSdk",
-      source_ref: "main",
+      source_ref: "v#{@version}",
       source_url: @source_url,
       homepage_url: @docs_url,
       assets: %{"assets" => "assets"},

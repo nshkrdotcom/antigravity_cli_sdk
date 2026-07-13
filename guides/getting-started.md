@@ -3,6 +3,10 @@
 `AntigravityCliSdk` runs `agy --print <prompt>` through
 `cli_subprocess_core` and projects the normalized core events into SDK structs.
 
+It is the supported Google coding-agent SDK. The retired `gemini_cli_sdk`
+remains retired, while `gemini_ex` is a distinct model API SDK. This package
+requires Elixir 1.19 or later and `cli_subprocess_core ~> 0.2.0`.
+
 ## 1. Add The Dependency
 
 For sibling checkout development:
@@ -14,7 +18,7 @@ For sibling checkout development:
 For Hex after publish:
 
 ```elixir
-{:antigravity_cli_sdk, "~> 0.1.0", organization: "nshkrdotcom"}
+{:antigravity_cli_sdk, "~> 0.1.0"}
 ```
 
 ## 2. Install And Authenticate `agy`

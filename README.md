@@ -11,16 +11,23 @@
 
 # AntigravityCliSdk
 
-`AntigravityCliSdk` is the Elixir SDK for the Google Antigravity CLI (`agy`).
-It gives Elixir applications a typed streaming API, a simple synchronous
+`AntigravityCliSdk` is the supported Google coding-agent SDK for the
+Antigravity CLI (`agy`). It gives Elixir applications a typed streaming API,
+a simple synchronous
 `run/2`, governed launch checks, and the runtime module consumed by
 `agent_session_manager` for the `:antigravity` SDK lane.
+
+The retired `gemini_cli_sdk` is not supported or revived by this package.
+`gemini_ex` is a distinct model API SDK and is not a coding-agent CLI runtime.
 
 The SDK does not reimplement subprocess handling. It uses
 `cli_subprocess_core`, the same core runtime that powers ASM's common
 Antigravity lane.
 
 ## Installation
+
+AntigravityCliSdk 0.1.0 requires Elixir 1.19 or later and
+`cli_subprocess_core ~> 0.2.0`.
 
 Sibling checkout during local development:
 
@@ -37,7 +44,7 @@ Hex dependency after publish:
 ```elixir
 def deps do
   [
-    {:antigravity_cli_sdk, "~> 0.1.0", organization: "nshkrdotcom"}
+    {:antigravity_cli_sdk, "~> 0.1.0"}
   ]
 end
 ```
