@@ -1,12 +1,10 @@
 <p align="center">
-  <img src="assets/antigravity_cli_sdk.svg" alt="AntigravityCliSdk" width="180"/>
+  <img src="assets/antigravity_cli_sdk.svg" alt="AntigravityCliSdk" width="200"/>
 </p>
 
 <p align="center">
-  <a href="https://hex.pm/packages/antigravity_cli_sdk"><img src="https://img.shields.io/hexpm/v/antigravity_cli_sdk.svg" alt="Hex version"/></a>
-  <a href="https://hexdocs.pm/antigravity_cli_sdk"><img src="https://img.shields.io/badge/docs-hexdocs-blue.svg" alt="HexDocs"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT License"/></a>
-  <a href="https://github.com/nshkrdotcom/antigravity_cli_sdk/actions"><img src="https://img.shields.io/badge/build-mix_ci-informational.svg" alt="Build"/></a>
+  <a href="https://github.com/nshkrdotcom/antigravity_cli_sdk"><img src="https://img.shields.io/badge/GitHub-nshkrdotcom%2Fantigravity_cli_sdk-24292e?logo=github" alt="GitHub"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"/></a>
 </p>
 
 # AntigravityCliSdk

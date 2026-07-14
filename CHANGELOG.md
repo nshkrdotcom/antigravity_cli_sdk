@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Restricted the Hex archive to consumer-facing source, configuration, guides,
+  examples, and public documentation/assets, with a consistent 200px README.
 - Prepared the first public Hex release for Elixir `~> 1.19` and
   `cli_subprocess_core ~> 0.2.0`.
 

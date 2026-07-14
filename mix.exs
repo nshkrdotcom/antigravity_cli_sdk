@@ -77,7 +77,7 @@ defmodule AntigravityCliSdk.MixProject do
       },
       maintainers: ["nshkrdotcom"],
       files:
-        ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md .formatter.exs),
+        ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md),
       exclude_patterns: [
         "**/_build/**",
         "**/deps/**",

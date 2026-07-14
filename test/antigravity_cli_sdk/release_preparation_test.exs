@@ -44,8 +44,24 @@ defmodule AntigravityCliSdk.ReleasePreparationTest do
       assert required in package[:files]
     end
 
+    refute ".formatter.exs" in package[:files]
+
     refute File.read!(Path.join(@repo_root, "README.md")) =~ "organization:"
     refute File.read!(Path.join(@repo_root, "guides/getting-started.md")) =~ "organization:"
+  end
+
+  test "README and HexDocs use the named 200px release asset" do
+    project = Mix.Project.config()
+    readme = File.read!(Path.join(@repo_root, "README.md"))
+    header = readme |> String.split("\n") |> Enum.take(20) |> Enum.join("\n")
+
+    assert project[:docs][:assets] == %{"assets" => "assets"}
+    assert project[:docs][:logo] == "assets/antigravity_cli_sdk.svg"
+    assert header =~ ~s(src="assets/antigravity_cli_sdk.svg")
+    assert header =~ ~s(width="200")
+    assert header =~ ~s(href="https://github.com/nshkrdotcom/antigravity_cli_sdk")
+    assert header =~ ~s(href="LICENSE")
+    assert length(Regex.scan(~r/img\.shields\.io/, header)) == 2
   end
 
   test "package docs preserve the Google coding-agent ownership boundary" do
