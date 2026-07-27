@@ -23,6 +23,15 @@ defmodule AntigravityCliSdk.Schema.Options do
         debug: Zoi.default(Zoi.optional(Zoi.nullish(Zoi.boolean())), false),
         cwd: Conventions.optional_trimmed_string(),
         timeout_ms: positive_integer_schema(:timeout_ms, Configuration.default_timeout_ms()),
+        run_deadline_ms:
+          positive_integer_schema(:run_deadline_ms, Configuration.run_deadline_ms()),
+        transport_headless_timeout_ms:
+          positive_integer_schema(
+            :transport_headless_timeout_ms,
+            Configuration.transport_headless_timeout_ms()
+          ),
+        completion_only: Zoi.default(Zoi.optional(Zoi.nullish(Zoi.boolean())), false),
+        output_schema: Conventions.optional_any(),
         max_stderr_buffer_bytes:
           positive_integer_schema(
             :max_stderr_buffer_bytes,
@@ -114,6 +123,15 @@ defmodule AntigravityCliSdk.Schema.Options do
       debug: Map.get(parsed, :debug, false),
       cwd: blank_to_nil(Map.get(parsed, :cwd)),
       timeout_ms: Map.get(parsed, :timeout_ms, Configuration.default_timeout_ms()),
+      run_deadline_ms: Map.get(parsed, :run_deadline_ms, Configuration.run_deadline_ms()),
+      transport_headless_timeout_ms:
+        Map.get(
+          parsed,
+          :transport_headless_timeout_ms,
+          Configuration.transport_headless_timeout_ms()
+        ),
+      completion_only: Map.get(parsed, :completion_only, false),
+      output_schema: Map.get(parsed, :output_schema),
       max_stderr_buffer_bytes:
         Map.get(parsed, :max_stderr_buffer_bytes, Configuration.max_stderr_buffer_size()),
       log_file: configured_log_file(blank_to_nil(Map.get(parsed, :log_file))),

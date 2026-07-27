@@ -40,6 +40,10 @@ defmodule AntigravityCliSdk.OptionsTest do
     assert opts.cwd == "/tmp"
     assert opts.print_timeout == "45s"
     assert opts.log_file == "/tmp/agy.log"
+    assert opts.completion_only == false
+    assert opts.output_schema == nil
+    assert opts.run_deadline_ms == 300_000
+    assert opts.transport_headless_timeout_ms == 5_000
   end
 
   test "uses application config defaults without System.get_env in library code" do
@@ -55,6 +59,14 @@ defmodule AntigravityCliSdk.OptionsTest do
   test "invalid values raise through validate!" do
     assert_raise ArgumentError, fn ->
       Options.validate!(%Options{timeout_ms: 0})
+    end
+
+    assert_raise ArgumentError, fn ->
+      Options.validate!(%Options{run_deadline_ms: 0})
+    end
+
+    assert_raise ArgumentError, fn ->
+      Options.validate!(%Options{transport_headless_timeout_ms: 0})
     end
   end
 

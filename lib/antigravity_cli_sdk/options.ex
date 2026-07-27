@@ -12,6 +12,8 @@ defmodule AntigravityCliSdk.Options do
   alias CliSubprocessCore.{ExecutionSurface, ModelInput}
 
   @default_timeout_ms Configuration.default_timeout_ms()
+  @default_run_deadline_ms Configuration.run_deadline_ms()
+  @default_transport_headless_timeout_ms Configuration.transport_headless_timeout_ms()
   @default_stderr_bytes Configuration.max_stderr_buffer_size()
 
   @type t :: %__MODULE__{
@@ -29,6 +31,10 @@ defmodule AntigravityCliSdk.Options do
           debug: boolean(),
           cwd: String.t() | nil,
           timeout_ms: pos_integer(),
+          run_deadline_ms: pos_integer(),
+          transport_headless_timeout_ms: pos_integer(),
+          completion_only: boolean(),
+          output_schema: term() | nil,
           max_stderr_buffer_bytes: pos_integer(),
           log_file: String.t() | nil,
           print_timeout: String.t() | nil,
@@ -49,6 +55,10 @@ defmodule AntigravityCliSdk.Options do
             debug: false,
             cwd: nil,
             timeout_ms: @default_timeout_ms,
+            run_deadline_ms: @default_run_deadline_ms,
+            transport_headless_timeout_ms: @default_transport_headless_timeout_ms,
+            completion_only: false,
+            output_schema: nil,
             max_stderr_buffer_bytes: @default_stderr_bytes,
             log_file: nil,
             print_timeout: nil,

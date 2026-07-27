@@ -14,7 +14,8 @@ defmodule AntigravityCliSdk.Stream do
       :session_monitor_ref,
       :session_event_tag,
       :projection_state,
-      :receive_timeout_ms
+      :receive_timeout_ms,
+      :deadline_at_ms
     ]
     defstruct session: nil,
               session_ref: nil,
@@ -25,6 +26,7 @@ defmodule AntigravityCliSdk.Stream do
               stderr: "",
               stderr_truncated?: false,
               receive_timeout_ms: Configuration.stream_timeout_ms(),
+              deadline_at_ms: nil,
               max_stderr_buffer_bytes: Configuration.max_stderr_buffer_size()
   end
 
@@ -47,6 +49,7 @@ defmodule AntigravityCliSdk.Stream do
           session_event_tag: Map.get(info, :session_event_tag, CLI.session_event_tag()),
           projection_state: projection_state,
           receive_timeout_ms: options.timeout_ms,
+          deadline_at_ms: monotonic_ms() + options.run_deadline_ms,
           max_stderr_buffer_bytes: options.max_stderr_buffer_bytes
         }
 
@@ -67,27 +70,26 @@ defmodule AntigravityCliSdk.Stream do
   defp receive_next(%State{done?: true} = state), do: {:halt, state}
 
   defp receive_next(%State{} = state) do
-    receive do
-      {event_tag, ref, {:event, %CoreEvent{} = event}}
-      when event_tag == state.session_event_tag and ref == state.session_ref ->
-        handle_core_event(event, state)
+    case receive_wait_ms(state) do
+      0 ->
+        {[deadline_event(state)], %{state | done?: true}}
 
-      {:DOWN, ref, :process, _pid, _reason}
-      when ref == state.session_monitor_ref ->
-        {:halt, %{state | done?: true}}
-    after
-      state.receive_timeout_ms ->
-        event =
-          %ErrorEvent{
-            severity: "fatal",
-            message:
-              "Timed out after #{state.receive_timeout_ms}ms waiting for Antigravity CLI output",
-            code: "stream_timeout",
-            stderr: normalize_stderr(state.stderr),
-            stderr_truncated?: state.stderr_truncated?
-          }
+      wait_ms ->
+        receive do
+          {event_tag, ref, {:event, %CoreEvent{} = event}}
+          when event_tag == state.session_event_tag and ref == state.session_ref ->
+            handle_core_event(event, state)
 
-        {[event], %{state | done?: true}}
+          {:DOWN, ref, :process, _pid, _reason}
+          when ref == state.session_monitor_ref ->
+            {:halt, %{state | done?: true}}
+        after
+          wait_ms ->
+            event =
+              if deadline_expired?(state), do: deadline_event(state), else: idle_event(state)
+
+            {[event], %{state | done?: true}}
+        end
     end
   end
 
@@ -172,4 +174,33 @@ defmodule AntigravityCliSdk.Stream do
 
   defp normalize_stderr(""), do: nil
   defp normalize_stderr(stderr), do: stderr
+
+  defp receive_wait_ms(%State{} = state) do
+    remaining = max(state.deadline_at_ms - monotonic_ms(), 0)
+    min(state.receive_timeout_ms, remaining)
+  end
+
+  defp deadline_expired?(%State{} = state), do: monotonic_ms() >= state.deadline_at_ms
+
+  defp deadline_event(%State{} = state) do
+    %ErrorEvent{
+      severity: "fatal",
+      message: "Antigravity CLI run exceeded its total deadline",
+      code: "run_deadline_exceeded",
+      stderr: normalize_stderr(state.stderr),
+      stderr_truncated?: state.stderr_truncated?
+    }
+  end
+
+  defp idle_event(%State{} = state) do
+    %ErrorEvent{
+      severity: "fatal",
+      message: "Timed out after #{state.receive_timeout_ms}ms waiting for Antigravity CLI output",
+      code: "stream_timeout",
+      stderr: normalize_stderr(state.stderr),
+      stderr_truncated?: state.stderr_truncated?
+    }
+  end
+
+  defp monotonic_ms, do: System.monotonic_time(:millisecond)
 end

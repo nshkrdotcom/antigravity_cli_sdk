@@ -10,6 +10,8 @@ defmodule AntigravityCliSdk.Configuration do
     command_timeout_ms: 60_000,
     stream_timeout_ms: 300_000,
     default_timeout_ms: 300_000,
+    run_deadline_ms: 300_000,
+    transport_headless_timeout_ms: 5_000,
     transport_close_grace_ms: 2_000,
     transport_kill_grace_ms: 250,
     max_stderr_buffer_size: 262_144,

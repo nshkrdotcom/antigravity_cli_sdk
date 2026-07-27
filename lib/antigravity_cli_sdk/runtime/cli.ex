@@ -154,8 +154,11 @@ defmodule AntigravityCliSdk.Runtime.CLI do
       ) do
     projected =
       Enum.map(Types.project_core_event(event), fn
-        %ResultEvent{} = result -> %{result | result: state.text}
-        other -> other
+        %ResultEvent{result: result_text} = result when result_text in [nil, ""] ->
+          %{result | result: state.text}
+
+        other ->
+          other
       end)
 
     {projected, %{state | result_received?: true}}

@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-27
+
+### Added
+
+- Explicit `completion_only`, `output_schema`, `run_deadline_ms`, and
+  `transport_headless_timeout_ms` options with typed unsupported-capability
+  errors for the two evidence-dependent common intents.
+- Non-rearming total run deadline and a dedicated finite Core transport
+  orphan-reap timeout, independent of the existing stream idle timeout.
+- Provider behavior, error handling, testing, and ASM integration guides.
+- Shared dependency-source helper v6 and release-DAG coverage.
+
+### Changed
+
+- Require `cli_subprocess_core ~> 0.4.0`.
+- Preserve Core result status, stop reason, output/object, provider session id,
+  usage, duration, metadata, raw envelope, and future payload fields.
+  Accumulated assistant text is now only a missing-result fallback.
+
+### Fixed
+
+- Stopped passing the rearming stream idle timeout as the transport headless
+  timeout.
+
 ## [0.1.0] - 2026-07-13
 
 ### Added
@@ -47,5 +71,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   current Google coding-agent SDK; `gemini_ex` remains a distinct model API
   SDK.
 
-[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/releases/tag/v0.1.0

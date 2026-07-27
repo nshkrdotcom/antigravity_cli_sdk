@@ -2,6 +2,7 @@ defmodule AntigravityCliSdk.Error do
   @moduledoc "Unified error type for Antigravity CLI SDK operations."
 
   alias CliSubprocessCore.ProviderCLI.ErrorRuntimeFailure
+  alias CliSubprocessCore.ProviderFeatures.Error, as: ProviderFeatureError
   alias CliSubprocessCore.TransportError, as: CoreTransportError
 
   @enforce_keys [:kind, :message]
@@ -16,10 +17,12 @@ defmodule AntigravityCliSdk.Error do
           | :input_error
           | :no_result
           | :parse_error
+          | :run_deadline_exceeded
           | :stream_start_failed
           | :stream_timeout
           | :transport_error
           | :transport_exit
+          | :unsupported_capability
           | :user_cancelled
           | :unknown
 
@@ -41,10 +44,12 @@ defmodule AntigravityCliSdk.Error do
     "input_error" => :input_error,
     "no_result" => :no_result,
     "parse_error" => :parse_error,
+    "run_deadline_exceeded" => :run_deadline_exceeded,
     "stream_start_failed" => :stream_start_failed,
     "stream_timeout" => :stream_timeout,
     "transport_error" => :transport_error,
     "transport_exit" => :transport_exit,
+    "unsupported_capability" => :unsupported_capability,
     "user_cancelled" => :user_cancelled,
     "unknown" => :unknown
   }
@@ -93,6 +98,20 @@ defmodule AntigravityCliSdk.Error do
   end
 
   def normalize(%ErrorRuntimeFailure{} = failure, opts), do: from_runtime_failure(failure, opts)
+
+  def normalize(%ProviderFeatureError{} = error, opts) do
+    new(
+      kind: Keyword.get(opts, :kind, :unsupported_capability),
+      message: Exception.message(error),
+      cause: error,
+      context: %{
+        provider: error.provider,
+        feature: error.feature,
+        option: error.option,
+        support_state: error.support_state
+      }
+    )
+  end
 
   def normalize(reason, opts) do
     if CoreTransportError.match?(reason) do

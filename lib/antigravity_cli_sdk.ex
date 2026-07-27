@@ -41,7 +41,8 @@ defmodule AntigravityCliSdk do
       %MessageEvent{role: :assistant, content: content}, {:ok, acc} ->
         {:ok, acc <> (content || "")}
 
-      %ResultEvent{status: :completed, result: result}, {:ok, ""} when is_binary(result) ->
+      %ResultEvent{status: :completed, result: result}, {:ok, _acc}
+      when is_binary(result) and result != "" ->
         {:ok, result}
 
       %ResultEvent{status: :completed}, acc ->

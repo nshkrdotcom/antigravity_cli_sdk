@@ -3,7 +3,7 @@ defmodule AntigravityCliSdk.CLI do
 
   alias AntigravityCliSdk.{ArgBuilder, Configuration, Error, GovernedLaunch, Options}
   alias AntigravityCliSdk.Runtime.CLI, as: RuntimeCLI
-  alias CliSubprocessCore.{Command, CommandSpec, ProviderCLI}
+  alias CliSubprocessCore.{Command, CommandSpec, ProviderCLI, ProviderFeatures}
 
   @spec resolve(keyword()) :: {:ok, CommandSpec.t()} | {:error, Error.t()}
   def resolve(opts \\ []) when is_list(opts) do
@@ -26,7 +26,8 @@ defmodule AntigravityCliSdk.CLI do
     options = opts |> Keyword.get(:options, %Options{}) |> Options.validate!()
     args = ArgBuilder.build_args(options, prompt)
 
-    with {:ok, authority} <- GovernedLaunch.authority(options) do
+    with :ok <- require_supported_features(options),
+         {:ok, authority} <- GovernedLaunch.authority(options) do
       case authority do
         nil -> standalone_invocation(args, options)
         _authority -> GovernedLaunch.invocation(args, options)
@@ -46,7 +47,7 @@ defmodule AntigravityCliSdk.CLI do
       metadata: Keyword.get(opts, :metadata, %{}),
       subscriber: normalize_subscriber!(Keyword.get(opts, :subscriber)),
       session_event_tag: Keyword.get(opts, :session_event_tag, RuntimeCLI.session_event_tag()),
-      headless_timeout_ms: options.timeout_ms,
+      transport_headless_timeout_ms: options.transport_headless_timeout_ms,
       max_stderr_buffer_bytes: options.max_stderr_buffer_bytes
     ]
     |> Keyword.reject(fn {_key, value} -> is_nil(value) end)
@@ -128,4 +129,25 @@ defmodule AntigravityCliSdk.CLI do
   defp maybe_put_env(env, _key, nil), do: env
   defp maybe_put_env(env, _key, ""), do: env
   defp maybe_put_env(env, key, value), do: Map.put(env, key, value)
+
+  defp require_supported_features(%Options{} = options) do
+    with :ok <-
+           ProviderFeatures.require_option(
+             :antigravity,
+             :completion_only,
+             :completion_only,
+             options.completion_only
+           ),
+         :ok <-
+           ProviderFeatures.require_option(
+             :antigravity,
+             :structured_output,
+             :output_schema,
+             options.output_schema
+           ) do
+      :ok
+    else
+      {:error, reason} -> {:error, Error.normalize(reason, [])}
+    end
+  end
 end

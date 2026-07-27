@@ -78,6 +78,7 @@ defmodule AntigravityCliSdk.Types do
   def project_core_event(%CoreEvent{
         kind: :result,
         payload: %Payload.Result{} = payload,
+        provider_session_id: provider_session_id,
         raw: raw
       }) do
     output = normalize_map(payload.output)
@@ -87,10 +88,14 @@ defmodule AntigravityCliSdk.Types do
         status: payload.status,
         stop_reason: payload.stop_reason,
         result: Map.get(output, :result, Map.get(output, "result")),
+        object: payload.object,
+        provider_session_id: provider_session_id,
+        output: payload.output,
         usage: normalize_map(Map.get(output, :usage, Map.get(output, "usage", %{}))),
         duration_ms: Map.get(output, :duration_ms, Map.get(output, "duration_ms")),
         metadata: payload.metadata,
-        raw: normalize_raw(raw)
+        raw: normalize_raw(raw),
+        extra: payload.extra
       }
     ]
   end

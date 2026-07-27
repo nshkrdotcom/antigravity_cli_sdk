@@ -30,5 +30,7 @@ over `cli_subprocess_core`:
    runtime for the `:antigravity` provider.
 
 The core lane and SDK lane intentionally share the same parser behavior:
-Antigravity stdout is plain text, non-empty lines become assistant deltas, and
-the SDK accumulates those deltas into the final result event.
+Antigravity stdout is plain text and non-empty lines become assistant deltas.
+Core terminal result fields remain authoritative; accumulated text is only a
+missing-result fallback. Total run deadline, stream idle wait, and transport
+orphan reaping are separate lifecycle controls.

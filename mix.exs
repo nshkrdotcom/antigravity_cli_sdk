@@ -6,7 +6,7 @@ defmodule AntigravityCliSdk.MixProject do
   use Mix.Project
 
   @app :antigravity_cli_sdk
-  @version "0.1.0"
+  @version "0.2.0"
   @source_url "https://github.com/nshkrdotcom/antigravity_cli_sdk"
   @homepage_url "https://hex.pm/packages/antigravity_cli_sdk"
   @docs_url "https://hexdocs.pm/antigravity_cli_sdk"
@@ -73,7 +73,8 @@ defmodule AntigravityCliSdk.MixProject do
         "Hex" => @homepage_url,
         "GitHub" => @source_url,
         "HexDocs" => @docs_url,
-        "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
+        "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md",
+        "License" => "#{@source_url}/blob/main/LICENSE"
       },
       maintainers: ["nshkrdotcom"],
       files:
@@ -106,6 +107,10 @@ defmodule AntigravityCliSdk.MixProject do
         "guides/streaming.md": [title: "Streaming"],
         "guides/sessions.md": [title: "Sessions"],
         "guides/authentication.md": [title: "Authentication"],
+        "guides/error-handling.md": [title: "Error Handling"],
+        "guides/testing.md": [title: "Testing"],
+        "guides/asm-integration.md": [title: "ASM Integration"],
+        "guides/provider-behavior-manifest.md": [title: "Provider Behavior Manifest"],
         "guides/architecture.md": [title: "Architecture"],
         "examples/README.md": [title: "Examples", filename: "examples"],
         "CHANGELOG.md": [title: "Changelog"],
@@ -116,15 +121,19 @@ defmodule AntigravityCliSdk.MixProject do
         Foundations: [
           "guides/getting-started.md",
           "guides/options.md",
-          "guides/authentication.md"
+          "guides/authentication.md",
+          "guides/error-handling.md"
         ],
         Runtime: [
           "guides/streaming.md",
           "guides/sessions.md"
         ],
         Architecture: [
-          "guides/architecture.md"
+          "guides/architecture.md",
+          "guides/asm-integration.md",
+          "guides/provider-behavior-manifest.md"
         ],
+        Testing: ["guides/testing.md"],
         Examples: ["examples/README.md"],
         Reference: ["CHANGELOG.md", "LICENSE"]
       ],

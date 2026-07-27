@@ -24,8 +24,8 @@ Antigravity lane.
 
 ## Installation
 
-AntigravityCliSdk 0.1.0 requires Elixir 1.19 or later and
-`cli_subprocess_core ~> 0.2.0`.
+AntigravityCliSdk 0.2.0 requires Elixir 1.19 or later and
+`cli_subprocess_core ~> 0.4.0`.
 
 Sibling checkout during local development:
 
@@ -42,7 +42,7 @@ Hex dependency after publish:
 ```elixir
 def deps do
   [
-    {:antigravity_cli_sdk, "~> 0.1.0"}
+    {:antigravity_cli_sdk, "~> 0.2.0"}
   ]
 end
 ```
@@ -81,6 +81,18 @@ Runtime configuration is explicit:
 
 Library modules read application config, not the parent OS environment.
 
+Three independent timeout controls are available:
+
+- `timeout_ms` is the idle wait between stream events;
+- `run_deadline_ms` is a non-rearming total run ceiling;
+- `transport_headless_timeout_ms` is the bounded orphan-reap window passed to
+  the Core transport.
+
+`completion_only: true` and non-nil `output_schema` are explicit common
+intents, but Antigravity currently rejects both with
+`AntigravityCliSdk.Error{kind: :unsupported_capability}` before resolving or
+starting `agy`.
+
 ## Live Example
 
 ```bash
@@ -104,5 +116,9 @@ examples live in `agent_session_manager/examples`.
 - [Streaming](guides/streaming.md)
 - [Sessions](guides/sessions.md)
 - [Authentication](guides/authentication.md)
+- [Error Handling](guides/error-handling.md)
+- [Testing](guides/testing.md)
+- [ASM Integration](guides/asm-integration.md)
+- [Provider Behavior Manifest](guides/provider-behavior-manifest.md)
 - [Architecture](guides/architecture.md)
 - [Examples](examples/README.md)

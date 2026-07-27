@@ -47,6 +47,11 @@ SSH flags are parsed consistently, but the default runner does not include a
 remote-only example. Passing `--ssh-host` routes examples through the shared
 `execution_surface` option.
 
+Examples use ordinary coding-agent mode. `completion_only: true` and
+`output_schema` are deliberately unsupported and fail before `agy` starts.
+For lifecycle tests, `timeout_ms`, `run_deadline_ms`, and
+`transport_headless_timeout_ms` remain independent.
+
 ## Inventory
 
 | Example | SDK surface |

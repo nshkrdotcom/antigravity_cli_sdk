@@ -16,8 +16,9 @@ The SDK emits:
 - `AntigravityCliSdk.Types.ErrorEvent`
 
 `agy --print` emits plain text, not NDJSON. The core Antigravity provider
-profile treats each non-empty stdout line as an assistant delta. The SDK
-accumulates those deltas and attaches the final text to the result event.
+profile treats each non-empty stdout line as an assistant delta. The SDK uses
+that accumulated text only when the terminal Core result has no result text of
+its own.
 
 ## Basic Use
 
@@ -50,6 +51,15 @@ end)
    structs.
 5. The stream closes the session when enumeration ends or when a result/error
    event arrives.
+
+Idle timeout and total deadline are independent. Continuous provider output
+may rearm the idle wait, but it cannot extend `run_deadline_ms`. The transport
+also receives a separate finite `transport_headless_timeout_ms` so a killed
+session cannot leave the native child behind indefinitely.
+
+`ResultEvent` preserves the Core terminal status, stop reason, output, object,
+provider session id, usage, duration, metadata, raw envelope, and future
+payload fields.
 
 The SDK does not expose untagged subscriber delivery. Internal stream
 subscriptions always use `{self(), ref}` so mailbox extraction is bounded to

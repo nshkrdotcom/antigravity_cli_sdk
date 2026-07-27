@@ -50,8 +50,54 @@ defmodule AntigravityCliSdk.Runtime.CLITest do
     assert {[], ^state} = CLI.project_event(result, state)
   end
 
-  defp event!(kind, payload) do
-    {:ok, event} = Event.parse(kind: kind, provider: :antigravity, payload: payload)
+  test "provider result text wins and all Core result fields survive projection" do
+    delta = event!(:assistant_delta, Payload.AssistantDelta.new(content: "fallback"))
+
+    result =
+      event!(
+        :result,
+        Payload.Result.new(
+          status: :error,
+          stop_reason: "provider_error",
+          output: %{
+            result: "provider result",
+            usage: %{input_tokens: 2, output_tokens: 3},
+            duration_ms: 41
+          },
+          object: nil,
+          metadata: %{source: :provider},
+          future_field: "preserved"
+        ),
+        provider_session_id: "agy-session-7",
+        raw: %{provider: "raw"}
+      )
+
+    {[_message], state} = CLI.project_event(delta, CLI.new_projection_state())
+
+    assert {[%ResultEvent{} = projected], _state} = CLI.project_event(result, state)
+    assert projected.result == "provider result"
+    assert projected.status == :error
+    assert projected.stop_reason == "provider_error"
+    assert projected.object == nil
+    assert projected.provider_session_id == "agy-session-7"
+    assert projected.output.result == "provider result"
+    assert projected.usage == %{input_tokens: 2, output_tokens: 3}
+    assert projected.duration_ms == 41
+    assert projected.metadata == %{source: :provider}
+    assert projected.raw == %{provider: "raw"}
+    assert projected.extra == %{future_field: "preserved"}
+  end
+
+  defp event!(kind, payload, opts \\ []) do
+    {:ok, event} =
+      Event.parse(
+        kind: kind,
+        provider: :antigravity,
+        payload: payload,
+        provider_session_id: Keyword.get(opts, :provider_session_id),
+        raw: Keyword.get(opts, :raw)
+      )
+
     event
   end
 

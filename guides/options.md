@@ -15,6 +15,11 @@ process is launched.
 | `print_timeout` | string or nil | `nil` | `--print-timeout <value>` |
 | `log_file` | string or nil | app config or `nil` | `--log-file <path>` |
 | `cwd` | string or nil | `nil` | subprocess working directory |
+| `timeout_ms` | positive integer | `300_000` | idle wait between stream events |
+| `run_deadline_ms` | positive integer | `300_000` | non-rearming total run ceiling |
+| `transport_headless_timeout_ms` | positive integer | `5_000` | Core orphan-reap window |
+| `completion_only` | boolean | `false` | common intent; unsupported |
+| `output_schema` | term or nil | `nil` | common intent; unsupported |
 | `api_key` | string or nil | `nil` | `ANTIGRAVITY_API_KEY` in child env |
 | `env` | map | `%{}` | child env overlay |
 | `execution_surface` | struct/map/keyword | local | core execution placement |
@@ -28,3 +33,7 @@ such as `ANTIGRAVITY_CLI_PATH`, `ANTIGRAVITY_MODEL`, and
 `ArgBuilder` always renders the prompt as `["--print", prompt]` first, then
 adds Antigravity-native flags. `--add-dir` is repeatable and is never
 comma-delimited.
+
+Unsupported common intents fail with a typed SDK error before CLI resolution.
+Antigravity `--sandbox` and permission controls are not treated as proof of a
+no-tool completion-only posture.

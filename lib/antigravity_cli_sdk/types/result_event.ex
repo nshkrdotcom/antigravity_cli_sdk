@@ -6,6 +6,9 @@ defmodule AntigravityCliSdk.Types.ResultEvent do
             status: :completed,
             stop_reason: nil,
             result: nil,
+            object: nil,
+            provider_session_id: nil,
+            output: nil,
             usage: %{},
             duration_ms: nil,
             metadata: %{},
@@ -14,9 +17,12 @@ defmodule AntigravityCliSdk.Types.ResultEvent do
 
   @type t :: %__MODULE__{
           type: :result,
-          status: :completed | :error,
+          status: term(),
           stop_reason: term(),
           result: String.t() | nil,
+          object: term(),
+          provider_session_id: String.t() | nil,
+          output: term(),
           usage: map(),
           duration_ms: non_neg_integer() | nil,
           metadata: map(),
