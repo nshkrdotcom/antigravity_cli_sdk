@@ -13,23 +13,23 @@ defmodule AntigravityCliSdk.ReleasePreparationTest do
     :inference
   ]
 
-  test "release metadata targets Antigravity CLI SDK 0.2.0 on Elixir 1.19" do
+  test "release metadata targets Antigravity CLI SDK 0.3.0 on Elixir 1.19" do
     project = Mix.Project.config()
 
-    assert project[:version] == "0.2.0"
+    assert project[:version] == "0.3.0"
     assert project[:elixir] == "~> 1.19"
-    assert project[:docs][:source_ref] == "v0.2.0"
+    assert project[:docs][:source_ref] == "v0.3.0"
     assert project[:homepage_url] == "https://hex.pm/packages/antigravity_cli_sdk"
   end
 
-  test "publish mode selects cli_subprocess_core 0.4 from Hex" do
-    assert "~> 0.4.0" ==
+  test "publish mode selects cli_subprocess_core 0.7 from Hex" do
+    assert "~> 0.7.0" ==
              @repo_root
              |> DependencySources.deps(publish?: true)
              |> Keyword.fetch!(:cli_subprocess_core)
   end
 
-  test "package metadata is complete for the 0.2.0 Hex release" do
+  test "package metadata is complete for the 0.3.0 Hex release" do
     package = Mix.Project.config()[:package]
 
     assert package[:name] == "antigravity_cli_sdk"
@@ -43,9 +43,11 @@ defmodule AntigravityCliSdk.ReleasePreparationTest do
              "https://github.com/nshkrdotcom/antigravity_cli_sdk/blob/main/LICENSE"
 
     for required <-
-          ~w(lib assets build_support guides config examples mix.exs README.md LICENSE CHANGELOG.md) do
+          ~w(lib assets guides config examples mix.exs README.md LICENSE CHANGELOG.md) do
       assert required in package[:files]
     end
+
+    refute "build_support" in package[:files]
 
     refute ".formatter.exs" in package[:files]
 

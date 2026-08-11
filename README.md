@@ -24,8 +24,8 @@ Antigravity lane.
 
 ## Installation
 
-AntigravityCliSdk 0.2.0 requires Elixir 1.19 or later and
-`cli_subprocess_core ~> 0.4.0`.
+AntigravityCliSdk 0.3.0 requires Elixir 1.19 or later and
+`cli_subprocess_core ~> 0.7.0`.
 
 Sibling checkout during local development:
 
@@ -42,7 +42,7 @@ Hex dependency after publish:
 ```elixir
 def deps do
   [
-    {:antigravity_cli_sdk, "~> 0.2.0"}
+    {:antigravity_cli_sdk, "~> 0.3.0"}
   ]
 end
 ```
@@ -121,4 +121,5 @@ examples live in `agent_session_manager/examples`.
 - [ASM Integration](guides/asm-integration.md)
 - [Provider Behavior Manifest](guides/provider-behavior-manifest.md)
 - [Architecture](guides/architecture.md)
+- [Migrating to 0.3](guides/migrating-to-0.3.md)
 - [Examples](examples/README.md)

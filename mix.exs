@@ -14,7 +14,7 @@ defmodule AntigravityCliSdk.MixProject do
   @workspace_checkout? File.regular?(Path.expand("build_support/dependency_sources.exs", __DIR__))
 
   @app :antigravity_cli_sdk
-  @version "0.2.0"
+  @version "0.3.0"
   @source_url "https://github.com/nshkrdotcom/antigravity_cli_sdk"
   @homepage_url "https://hex.pm/packages/antigravity_cli_sdk"
   @docs_url "https://hexdocs.pm/antigravity_cli_sdk"
@@ -59,7 +59,7 @@ defmodule AntigravityCliSdk.MixProject do
 
   defp deps do
     [
-      workspace_dep(:cli_subprocess_core, "~> 0.4.0"),
+      workspace_dep(:cli_subprocess_core, "~> 0.7.0"),
       {:jason, "~> 1.4"},
       {:zoi, "~> 0.18"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
@@ -71,7 +71,6 @@ defmodule AntigravityCliSdk.MixProject do
   defp description do
     "Elixir SDK for the Google Antigravity CLI with typed streams, governed launch, and ASM integration."
   end
-
 
   # In a source checkout the registry decides the source (path first). In a
   # published package there is no registry, and the requirement stated here is
@@ -97,8 +96,7 @@ defmodule AntigravityCliSdk.MixProject do
         "License" => "#{@source_url}/blob/main/LICENSE"
       },
       maintainers: ["nshkrdotcom"],
-      files:
-        ~w(lib assets guides config examples mix.exs README.md LICENSE CHANGELOG.md),
+      files: ~w(lib assets guides config examples mix.exs README.md LICENSE CHANGELOG.md),
       exclude_patterns: [
         "**/_build/**",
         "**/deps/**",
@@ -132,6 +130,7 @@ defmodule AntigravityCliSdk.MixProject do
         "guides/asm-integration.md": [title: "ASM Integration"],
         "guides/provider-behavior-manifest.md": [title: "Provider Behavior Manifest"],
         "guides/architecture.md": [title: "Architecture"],
+        "guides/migrating-to-0.3.md": [title: "Migrating to 0.3"],
         "examples/README.md": [title: "Examples", filename: "examples"],
         "CHANGELOG.md": [title: "Changelog"],
         LICENSE: [title: "License"]
@@ -142,7 +141,8 @@ defmodule AntigravityCliSdk.MixProject do
           "guides/getting-started.md",
           "guides/options.md",
           "guides/authentication.md",
-          "guides/error-handling.md"
+          "guides/error-handling.md",
+          "guides/migrating-to-0.3.md"
         ],
         Runtime: [
           "guides/streaming.md",

@@ -19,8 +19,8 @@ published:
 ```elixir
 [
   {:agent_session_manager, "~> 0.12.0"},
-  {:antigravity_cli_sdk, "~> 0.2.0"}
+  {:antigravity_cli_sdk, "~> 0.3.0"}
 ]
 ```
 
-Publication order is Core 0.4.0, this SDK 0.2.0, then ASM 0.12.0.
+Publication order is Core 0.7.0, this SDK 0.3.0, then ASM 0.14.0 or newer.

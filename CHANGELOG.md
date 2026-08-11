@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-11
+
+### Changed
+
+- Updated the runtime boundary to `cli_subprocess_core ~> 0.7.0`, making the
+  SDK compatible with the current Agent Session Manager dependency graph.
+- Release checks now prove that repository-only `build_support` tooling is
+  excluded from the published package.
+
 ## [0.2.0] - 2026-07-27
 
 ### Added
@@ -71,6 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   current Google coding-agent SDK; `gemini_ex` remains a distinct model API
   SDK.
 
-[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/releases/tag/v0.1.0

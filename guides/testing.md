@@ -21,6 +21,6 @@ Authenticated provider checks are opt-in:
 mix test.live
 ```
 
-The 0.2.0 release can be prepared without fabricating live evidence when
+The 0.3.0 release can be prepared without fabricating live evidence when
 `agy` is unavailable. In that case the behavior manifest records the gap and
 keeps evidence-dependent features unsupported.

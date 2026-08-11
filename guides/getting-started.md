@@ -5,7 +5,7 @@
 
 It is the supported Google coding-agent SDK. The retired `gemini_cli_sdk`
 remains retired, while `gemini_ex` is a distinct model API SDK. This package
-requires Elixir 1.19 or later and `cli_subprocess_core ~> 0.4.0`.
+requires Elixir 1.19 or later and `cli_subprocess_core ~> 0.7.0`.
 
 ## 1. Add The Dependency
 
@@ -18,7 +18,7 @@ For sibling checkout development:
 For Hex after publish:
 
 ```elixir
-{:antigravity_cli_sdk, "~> 0.2.0"}
+{:antigravity_cli_sdk, "~> 0.3.0"}
 ```
 
 ## 2. Install And Authenticate `agy`
