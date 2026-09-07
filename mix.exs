@@ -4,7 +4,7 @@ defmodule AntigravityCliSdk.MixProject do
   use Mix.Project
 
   @app :antigravity_cli_sdk
-  @version "0.3.0"
+  @version "0.4.0"
   @source_url "https://github.com/nshkrdotcom/antigravity_cli_sdk"
   @homepage_url "https://hex.pm/packages/antigravity_cli_sdk"
   @docs_url "https://hexdocs.pm/antigravity_cli_sdk"
@@ -49,7 +49,7 @@ defmodule AntigravityCliSdk.MixProject do
 
   defp deps do
     [
-      workspace_dep({:cli_subprocess_core, "~> 0.7.0"}),
+      workspace_dep({:cli_subprocess_core, "~> 0.8.0"}),
       {:jason, "~> 1.4"},
       {:zoi, "~> 0.18"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
@@ -115,6 +115,7 @@ defmodule AntigravityCliSdk.MixProject do
         "guides/asm-integration.md": [title: "ASM Integration"],
         "guides/provider-behavior-manifest.md": [title: "Provider Behavior Manifest"],
         "guides/architecture.md": [title: "Architecture"],
+        "guides/migrating-to-0.4.md": [title: "Migrating to 0.4"],
         "guides/migrating-to-0.3.md": [title: "Migrating to 0.3"],
         "examples/README.md": [title: "Examples", filename: "examples"],
         "CHANGELOG.md": [title: "Changelog"],
@@ -127,6 +128,7 @@ defmodule AntigravityCliSdk.MixProject do
           "guides/options.md",
           "guides/authentication.md",
           "guides/error-handling.md",
+          "guides/migrating-to-0.4.md",
           "guides/migrating-to-0.3.md"
         ],
         Runtime: [

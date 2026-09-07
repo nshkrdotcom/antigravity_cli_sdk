@@ -21,6 +21,7 @@ defmodule AntigravityCliSdk.Options do
           governed_authority: CliSubprocessCore.GovernedAuthority.t() | keyword() | map() | nil,
           model_payload: CliSubprocessCore.ModelRegistry.selection() | nil,
           model: String.t() | nil,
+          effort: String.t() | nil,
           api_key: String.t() | nil,
           cli_command: String.t() | nil,
           sandbox: boolean(),
@@ -45,6 +46,7 @@ defmodule AntigravityCliSdk.Options do
             governed_authority: nil,
             model_payload: nil,
             model: nil,
+            effort: nil,
             api_key: nil,
             cli_command: nil,
             sandbox: false,
@@ -65,7 +67,11 @@ defmodule AntigravityCliSdk.Options do
             env: %{}
 
   @spec new(keyword() | map() | t()) :: {:ok, t()} | {:error, term()}
-  def new(%__MODULE__{} = opts), do: {:ok, validate!(opts)}
+  def new(%__MODULE__{} = opts) do
+    {:ok, validate!(opts)}
+  rescue
+    error in ArgumentError -> {:error, error}
+  end
 
   def new(attrs) when is_list(attrs) or is_map(attrs) do
     {:ok, validate!(struct!(__MODULE__, attrs))}
@@ -120,14 +126,35 @@ defmodule AntigravityCliSdk.Options do
   def execution_surface_options(nil), do: []
 
   defp normalize_model_input!(%__MODULE__{} = opts) do
-    case ModelInput.normalize(:antigravity, Map.from_struct(opts)) do
-      {:ok, normalized} ->
-        %{opts | model_payload: normalized.selection, model: normalized.selection.resolved_model}
+    input_attrs =
+      opts
+      |> Map.from_struct()
+      |> Map.put(:allow_unknown, true)
+      |> maybe_put_reasoning(opts.effort)
 
-      {:error, _reason} ->
-        opts
+    case ModelInput.normalize(:antigravity, input_attrs) do
+      {:ok, normalized} ->
+        effort = normalized.selection.reasoning || opts.effort
+
+        %{
+          opts
+          | model_payload: normalized.selection,
+            model: normalized.selection.resolved_model,
+            effort: effort
+        }
+
+      {:error, {:invalid_reasoning_effort, effort, allowed, _provider}} ->
+        raise ArgumentError,
+              "invalid reasoning effort: #{inspect(effort)}, allowed: #{inspect(allowed)}"
+
+      {:error, reason} ->
+        raise ArgumentError, "invalid model selection: #{inspect(reason)}"
     end
   end
+
+  defp maybe_put_reasoning(attrs, nil), do: attrs
+  defp maybe_put_reasoning(attrs, ""), do: attrs
+  defp maybe_put_reasoning(attrs, effort), do: Map.put(attrs, :reasoning, to_string(effort))
 
   defp validation_message(%{issues: [%{path: path} | _], message: message})
        when is_list(path) and path != [] do

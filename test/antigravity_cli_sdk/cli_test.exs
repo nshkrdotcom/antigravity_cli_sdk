@@ -43,6 +43,71 @@ defmodule AntigravityCliSdk.CLITest do
     refute "secret" in invocation.args
   end
 
+  test "build_invocation includes --model when explicit non-default model is configured" do
+    path = executable_fixture!("agy-fixture")
+
+    assert {:ok, invocation} =
+             CLI.build_invocation(
+               prompt: "hello",
+               options: %Options{
+                 cli_command: path,
+                 model: "gemini-3.8-flash"
+               }
+             )
+
+    assert invocation.args == [
+             "--print",
+             "hello",
+             "--model",
+             "gemini-3.8-flash",
+             "--effort",
+             "medium"
+           ]
+  end
+
+  test "build_invocation includes --model and --effort when configured" do
+    path = executable_fixture!("agy-fixture")
+
+    assert {:ok, invocation} =
+             CLI.build_invocation(
+               prompt: "hello",
+               options: %Options{
+                 cli_command: path,
+                 model: "gemini-3.8-flash",
+                 effort: "high"
+               }
+             )
+
+    assert invocation.args == [
+             "--print",
+             "hello",
+             "--model",
+             "gemini-3.8-flash",
+             "--effort",
+             "high"
+           ]
+  end
+
+  test "build_invocation includes --effort and omits --model when default model is configured with effort" do
+    path = executable_fixture!("agy-fixture")
+
+    assert {:ok, invocation} =
+             CLI.build_invocation(
+               prompt: "hello",
+               options: %Options{
+                 cli_command: path,
+                 effort: "high"
+               }
+             )
+
+    assert invocation.args == [
+             "--print",
+             "hello",
+             "--effort",
+             "high"
+           ]
+  end
+
   test "common unsupported intents fail before CLI resolution" do
     for options <- [
           %Options{cli_command: "/missing/agy", completion_only: true},

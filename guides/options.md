@@ -5,7 +5,8 @@ process is launched.
 
 | Field | Type | Default | CLI mapping |
 | --- | --- | --- | --- |
-| `model` | string or nil | core catalog `default` | Core model payload |
+| `model` | string or nil | core catalog `default` | `--model <id>` (omitted for default) |
+| `effort` | string, atom, or nil | `nil` | `--effort <level>` (`low`/`medium`/`high`) |
 | `cli_command` | string or nil | app config/PATH | Path to `agy` |
 | `sandbox` | boolean | `false` | `--sandbox` |
 | `dangerously_skip_permissions` | boolean | `false` | `--dangerously-skip-permissions` |
@@ -31,8 +32,10 @@ such as `ANTIGRAVITY_CLI_PATH`, `ANTIGRAVITY_MODEL`, and
 `ANTIGRAVITY_LOG_FILE` into application config.
 
 `ArgBuilder` always renders the prompt as `["--print", prompt]` first, then
-adds Antigravity-native flags. `--add-dir` is repeatable and is never
-comma-delimited.
+adds Antigravity-native flags. If a non-default model (such as `gemini-3.8-flash`)
+is specified, `--model <model>` is included. If reasoning effort is specified or
+resolved from the catalog, `--effort <level>` is included. `--add-dir` is repeatable
+and is never comma-delimited.
 
 Unsupported common intents fail with a typed SDK error before CLI resolution.
 Antigravity `--sandbox` and permission controls are not treated as proof of a

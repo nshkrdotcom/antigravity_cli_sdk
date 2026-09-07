@@ -11,6 +11,7 @@ defmodule AntigravityCliSdk.ArgBuilderTest do
     args =
       ArgBuilder.build_args(
         %Options{
+          model: "gemini-3.8-flash",
           sandbox: true,
           dangerously_skip_permissions: true,
           conversation: "conv-1",
@@ -25,6 +26,8 @@ defmodule AntigravityCliSdk.ArgBuilderTest do
     assert args == [
              "--print",
              "hello",
+             "--model",
+             "gemini-3.8-flash",
              "--sandbox",
              "--dangerously-skip-permissions",
              "--conversation",
@@ -39,5 +42,61 @@ defmodule AntigravityCliSdk.ArgBuilderTest do
              "--log-file",
              "/tmp/agy.log"
            ]
+  end
+
+  test "forwards non-default model and omits default or empty model" do
+    assert ArgBuilder.build_args(%Options{model: "gemini-3.8-flash"}, "hi") == [
+             "--print",
+             "hi",
+             "--model",
+             "gemini-3.8-flash"
+           ]
+
+    assert ArgBuilder.build_args(%Options{model: "default"}, "hi") == ["--print", "hi"]
+    assert ArgBuilder.build_args(%Options{model: ""}, "hi") == ["--print", "hi"]
+    assert ArgBuilder.build_args(%Options{model: nil}, "hi") == ["--print", "hi"]
+  end
+
+  test "forwards effort option and model_payload reasoning" do
+    assert ArgBuilder.build_args(%Options{model: "gemini-3.8-flash", effort: "high"}, "hi") == [
+             "--print",
+             "hi",
+             "--model",
+             "gemini-3.8-flash",
+             "--effort",
+             "high"
+           ]
+
+    assert ArgBuilder.build_args(%Options{effort: :low}, "hi") == [
+             "--print",
+             "hi",
+             "--effort",
+             "low"
+           ]
+
+    assert ArgBuilder.build_args(
+             %Options{
+               model: "gemini-3.8-flash",
+               model_payload: %{reasoning: "medium"}
+             },
+             "hi"
+           ) == [
+             "--print",
+             "hi",
+             "--model",
+             "gemini-3.8-flash",
+             "--effort",
+             "medium"
+           ]
+
+    assert ArgBuilder.build_args(%Options{model: "default", effort: "high"}, "hi") == [
+             "--print",
+             "hi",
+             "--effort",
+             "high"
+           ]
+
+    assert ArgBuilder.build_args(%Options{effort: nil}, "hi") == ["--print", "hi"]
+    assert ArgBuilder.build_args(%Options{effort: ""}, "hi") == ["--print", "hi"]
   end
 end

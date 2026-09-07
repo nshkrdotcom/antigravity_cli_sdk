@@ -1,14 +1,14 @@
 # Provider behavior manifest
 
-Verified on 2026-07-27 for `antigravity_cli_sdk 0.2.0`.
-
-The release environment did not contain an installed/authenticated `agy`
-binary. Provider behavior claims are therefore limited to the documented CLI
-surface already represented by checked-in offline fixtures and tests. The
-optional live suite remains the gate for an operator-authenticated binary.
+Release 0.4.0 model and effort behavior checked against authenticated `agy`
+`models` and `--help` on 2026-09-07. The catalog includes Gemini 3.8 Flash;
+omitted model options preserve agy's native default selection.
+Both `examples/simple_run.exs` and `examples/simple_stream.exs` returned their
+exact expected responses. Other rows retain their offline evidence boundary.
 
 | Behavior | Source/evidence | Support boundary |
 | --- | --- | --- |
+| Gemini 3.8 Flash model and effort | Live `agy models`, `agy --help`, exact-OK CLI smoke at low effort; SDK options and argument tests | `--model gemini-3.8-flash --effort low/medium/high`; malformed effort and conflicting selections rejected |
 | plain-text print output | Core Antigravity profile and `TypesTest` | non-empty lines become byte-faithful assistant deltas |
 | sandbox | `ArgBuilderTest` and `CLITest` | renders `--sandbox`; does not claim tools/MCP/prompts are absent |
 | permission bypass | `ArgBuilderTest` and `CLITest` | renders `--dangerously-skip-permissions` |

@@ -24,8 +24,8 @@ Antigravity lane.
 
 ## Installation
 
-AntigravityCliSdk 0.3.0 requires Elixir 1.19 or later and
-`cli_subprocess_core ~> 0.7.0`.
+AntigravityCliSdk 0.4.0 requires Elixir 1.19 or later and
+`cli_subprocess_core ~> 0.8.0`.
 
 Sibling checkout during local development:
 
@@ -42,7 +42,7 @@ Hex dependency after publish:
 ```elixir
 def deps do
   [
-    {:antigravity_cli_sdk, "~> 0.3.0"}
+    {:antigravity_cli_sdk, "~> 0.4.0"}
   ]
 end
 ```

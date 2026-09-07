@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-07
+
+### Added
+
+- Support `--model` and `--effort` CLI argument forwarding in `AntigravityCliSdk.ArgBuilder` for explicit model and reasoning effort selection (e.g. `gemini-3.8-flash` with `effort: :high`). Default, nil, and empty models continue to be omitted so `agy` selects its own default model.
+- Added the validated `:effort` option to `AntigravityCliSdk.Options`.
+- Added `guides/migrating-to-0.4.md` documenting model forwarding, reasoning effort, and configuration.
+- Expanded model validation tests to verify `gemini-3.8-flash` resolution through `cli_subprocess_core`.
+
+### Changed
+
+- Require `cli_subprocess_core ~> 0.8.0` for the refreshed provider catalogs.
+- Reject malformed effort values and conflicting model payloads before starting a process.
+
 ## [0.3.0] - 2026-08-11
 
 ### Changed
@@ -80,7 +94,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   current Google coding-agent SDK; `gemini_ex` remains a distinct model API
   SDK.
 
-[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/nshkrdotcom/antigravity_cli_sdk/releases/tag/v0.1.0

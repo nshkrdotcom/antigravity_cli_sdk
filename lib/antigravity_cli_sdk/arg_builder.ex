@@ -6,6 +6,8 @@ defmodule AntigravityCliSdk.ArgBuilder do
   @spec build_args(Options.t(), String.t()) :: [String.t()]
   def build_args(%Options{} = opts, prompt) when is_binary(prompt) do
     ["--print", prompt]
+    |> add_model(opts.model)
+    |> add_effort(opts.effort, opts.model_payload)
     |> add_flag("--sandbox", opts.sandbox)
     |> add_flag("--dangerously-skip-permissions", opts.dangerously_skip_permissions)
     |> add_pair("--conversation", opts.conversation)
@@ -14,6 +16,59 @@ defmodule AntigravityCliSdk.ArgBuilder do
     |> add_pair("--print-timeout", opts.print_timeout)
     |> add_pair("--log-file", opts.log_file)
   end
+
+  defp add_model(args, nil), do: args
+  defp add_model(args, ""), do: args
+  defp add_model(args, "default"), do: args
+
+  defp add_model(args, model) when is_binary(model) do
+    case String.trim(model) do
+      "" -> args
+      "default" -> args
+      normalized -> args ++ ["--model", normalized]
+    end
+  end
+
+  defp add_model(args, _other), do: args
+
+  defp add_effort(args, effort, model_payload) do
+    resolved_effort =
+      effort
+      |> blank_to_nil()
+      |> Kernel.||(model_payload_effort(model_payload))
+
+    case resolved_effort do
+      nil ->
+        args
+
+      "" ->
+        args
+
+      val when is_atom(val) ->
+        args ++ ["--effort", Atom.to_string(val)]
+
+      val when is_binary(val) ->
+        case String.trim(val) do
+          "" -> args
+          trimmed -> args ++ ["--effort", trimmed]
+        end
+
+      _other ->
+        args
+    end
+  end
+
+  defp model_payload_effort(%{reasoning: reasoning})
+       when is_binary(reasoning) or is_atom(reasoning),
+       do: reasoning
+
+  defp model_payload_effort(payload) when is_map(payload),
+    do: Map.get(payload, :reasoning) || Map.get(payload, "reasoning")
+
+  defp model_payload_effort(_), do: nil
+
+  defp blank_to_nil(value) when value in [nil, ""], do: nil
+  defp blank_to_nil(value), do: value
 
   defp add_flag(args, _flag, false), do: args
   defp add_flag(args, _flag, nil), do: args

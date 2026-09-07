@@ -12,6 +12,7 @@ defmodule AntigravityCliSdk.Schema.Options do
         governed_authority: Conventions.optional_any(),
         model_payload: Conventions.optional_any(),
         model: Conventions.optional_trimmed_string(),
+        effort: Conventions.optional_any(),
         api_key: Conventions.optional_trimmed_string(),
         cli_command: Conventions.optional_trimmed_string(),
         sandbox: Zoi.default(Zoi.optional(Zoi.nullish(Zoi.boolean())), false),
@@ -113,6 +114,7 @@ defmodule AntigravityCliSdk.Schema.Options do
       governed_authority: Map.get(parsed, :governed_authority),
       model_payload: Map.get(parsed, :model_payload),
       model: configured_model(blank_to_nil(Map.get(parsed, :model))),
+      effort: normalize_effort(Map.get(parsed, :effort)),
       api_key: blank_to_nil(Map.get(parsed, :api_key)),
       cli_command: blank_to_nil(Map.get(parsed, :cli_command)),
       sandbox: Map.get(parsed, :sandbox, false),
@@ -148,4 +150,24 @@ defmodule AntigravityCliSdk.Schema.Options do
 
   defp blank_to_nil(value) when value in [nil, ""], do: nil
   defp blank_to_nil(value), do: value
+
+  defp normalize_effort(nil), do: nil
+  defp normalize_effort(""), do: nil
+
+  defp normalize_effort(effort) when effort in [:low, :medium, :high],
+    do: Atom.to_string(effort)
+
+  defp normalize_effort(effort) when is_binary(effort) do
+    case String.trim(effort) do
+      "" -> nil
+      trimmed when trimmed in ["low", "medium", "high"] -> trimmed
+      other -> invalid_effort!(other)
+    end
+  end
+
+  defp normalize_effort(other), do: invalid_effort!(other)
+
+  defp invalid_effort!(effort) do
+    raise ArgumentError, "effort must be low, medium, or high, got: #{inspect(effort)}"
+  end
 end

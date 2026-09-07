@@ -70,6 +70,26 @@ defmodule AntigravityCliSdk.OptionsTest do
     end
   end
 
+  test "Options: rejects malformed effort for maps and structs" do
+    for effort <- [false, 123, %{}, :ultra, "ultra"] do
+      assert {:error, %ArgumentError{}} = Options.new(effort: effort)
+      assert {:error, %ArgumentError{}} = Options.new(%Options{effort: effort})
+    end
+  end
+
+  test "Options: preserves native defaults and validates explicit effort" do
+    assert {:ok, %{model: "default", effort: nil}} = Options.new([])
+    assert {:ok, %{model: "default", effort: "high"}} = Options.new(effort: :high)
+
+    assert {:ok, %{model: "gemini-3.8-flash", effort: "medium"}} =
+             Options.new(model: "3.8-flash")
+  end
+
+  test "Options: rejects conflicting pre-resolved selection" do
+    assert {:ok, opts} = Options.new(model: "gemini-3.8-flash", effort: "low")
+    assert {:error, %ArgumentError{}} = Options.new(%{opts | effort: "high"})
+  end
+
   defp restore_env(key, nil), do: Application.delete_env(:antigravity_cli_sdk, key)
   defp restore_env(key, value), do: Application.put_env(:antigravity_cli_sdk, key, value)
 end
