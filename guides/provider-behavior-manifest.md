@@ -1,6 +1,6 @@
 # Provider behavior manifest
 
-Release 0.4.0 model and effort behavior checked against authenticated `agy`
+Release 0.4.1 model and effort behavior checked against authenticated `agy`
 `models` and `--help` on 2026-09-07. The catalog includes Gemini 3.8 Flash;
 omitted model options preserve agy's native default selection.
 Both `examples/simple_run.exs` and `examples/simple_stream.exs` returned their
