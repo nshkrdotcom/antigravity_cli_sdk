@@ -18,7 +18,7 @@ For sibling checkout development:
 For Hex after publish:
 
 ```elixir
-{:antigravity_cli_sdk, "~> 0.4.1"}
+{:antigravity_cli_sdk, "~> 0.4.2"}
 ```
 
 ## 2. Install And Authenticate `agy`

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Next release: **0.4.2**.
+
+### Changed
+
+- Require `cli_subprocess_core ~> 0.9.5` and Zoi 0.19.0; refresh all dependency requirements and the complete Hex lockfile to current stable releases.
+- Consume the current shared model catalogs and independently published Execution Plane component releases.
+
 ## [0.4.1] - 2026-09-29
 
 ### Changed

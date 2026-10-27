@@ -4,7 +4,7 @@ defmodule AntigravityCliSdk.MixProject do
   use Mix.Project
 
   @app :antigravity_cli_sdk
-  @version "0.4.1"
+  @version "0.4.2"
   @source_url "https://github.com/nshkrdotcom/antigravity_cli_sdk"
   @homepage_url "https://hex.pm/packages/antigravity_cli_sdk"
   @docs_url "https://hexdocs.pm/antigravity_cli_sdk"
@@ -49,9 +49,9 @@ defmodule AntigravityCliSdk.MixProject do
 
   defp deps do
     [
-      workspace_dep({:cli_subprocess_core, "~> 0.9.3"}),
+      workspace_dep({:cli_subprocess_core, "~> 0.9.5"}),
       {:jason, "~> 1.4.5"},
-      {:zoi, "~> 0.18.11"},
+      {:zoi, "~> 0.19.0"},
       {:ex_doc, "~> 0.40.4", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4.8", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7.19", only: [:dev, :test], runtime: false}
