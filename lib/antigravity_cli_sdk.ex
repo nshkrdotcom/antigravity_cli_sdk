@@ -49,12 +49,7 @@ defmodule AntigravityCliSdk do
         acc
 
       %ErrorEvent{} = event, _acc ->
-        {:error,
-         Error.new(
-           kind: event.code || :execution_failed,
-           message: event.message,
-           details: event.stderr || event.details
-         )}
+        {:error, execution_error(event, options.model)}
 
       _event, acc ->
         acc
@@ -64,6 +59,30 @@ defmodule AntigravityCliSdk do
       other -> other
     end
   end
+
+  defp execution_error(event, model) do
+    diagnostic = event.stderr || event.details
+
+    if event.code == "model_rejected" or model_rejection?(event.message) do
+      Error.new(
+        kind: :model_rejected,
+        message:
+          "agy rejected model #{inspect(model)}. Check Models.list_available/1 for this account.",
+        context: %{model: model}
+      )
+    else
+      Error.new(
+        kind: event.code || :execution_failed,
+        message: event.message,
+        details: diagnostic
+      )
+    end
+  end
+
+  defp model_rejection?(message) when is_binary(message),
+    do: String.contains?(message, "invalid model selection (--model")
+
+  defp model_rejection?(_message), do: false
 
   @doc """
   Alias for `run/2`, provided for ASM runtime-kit symmetry.

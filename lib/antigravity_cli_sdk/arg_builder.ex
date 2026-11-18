@@ -24,7 +24,7 @@ defmodule AntigravityCliSdk.ArgBuilder do
   defp add_model(args, model) when is_binary(model) do
     case String.trim(model) do
       "" -> args
-      "default" -> args
+      model when model in ["default", "auto"] -> args
       normalized -> args ++ ["--model", normalized]
     end
   end

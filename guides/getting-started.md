@@ -18,7 +18,7 @@ For sibling checkout development:
 For Hex after publish:
 
 ```elixir
-{:antigravity_cli_sdk, "~> 0.4.2"}
+{:antigravity_cli_sdk, "~> 0.5.0"}
 ```
 
 ## 2. Install And Authenticate `agy`
@@ -93,3 +93,16 @@ In an ASM host app, add `antigravity_cli_sdk` as an optional dependency and run:
     permission_mode: :bypass
   )
 ```
+
+## Select an Antigravity model
+
+Call `AntigravityCliSdk.Models.list_available/1` for the exact slugs advertised by
+the active account. For offline model discovery, use
+`AntigravityCliSdk.Models.list/1`. Gemini 4 Carbon appears in the offline
+catalog for eligible Ultra and Enterprise users. An omitted model uses the
+CLI selection.
+
+For a pinned run, set `model: "gemini-4-argon-medium"` when the account
+advertises that slug. If the CLI rejects a pinned model, refresh discovery and
+select an available model before retrying. `AntigravityCliSdk.run/2` returns the
+requested slug in the `:model_rejected` error context.

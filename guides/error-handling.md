@@ -8,6 +8,11 @@ Unsupported `completion_only` and `output_schema` requests return
 feature, activating option, and support state supplied by
 `CliSubprocessCore.ProviderFeatures.Error`.
 
+When `agy` rejects an explicit model, `AntigravityCliSdk.run/2` returns
+`kind: :model_rejected` and the requested model in `context.model`. Use
+`AntigravityCliSdk.Models.list_available/1` to refresh the active account's
+choices before retrying.
+
 Lifecycle failures are distinct:
 
 - `stream_timeout` means no event arrived within `timeout_ms`;

@@ -1,7 +1,7 @@
 defmodule AntigravityCliSdk.Models do
   @moduledoc "Antigravity model catalog helpers."
 
-  alias CliSubprocessCore.ModelRegistry
+  alias CliSubprocessCore.{AntigravityModels, ModelRegistry}
 
   defmodule Model do
     @moduledoc "Antigravity model entry."
@@ -25,6 +25,14 @@ defmodule AntigravityCliSdk.Models do
        end)}
     end
   end
+
+  @doc """
+  Lists the exact model slugs advertised by the signed-in `agy` account.
+
+  Use this to populate an account-specific picker. See
+  `CliSubprocessCore.AntigravityModels.list/1` for options and failure results.
+  """
+  def list_available(opts \\ []), do: AntigravityModels.list(opts)
 
   @spec default_model(keyword()) :: {:ok, String.t() | nil} | {:error, term()}
   def default_model(opts \\ []), do: ModelRegistry.default_model(:antigravity, opts)

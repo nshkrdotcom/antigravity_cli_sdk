@@ -1,14 +1,16 @@
 # Provider behavior manifest
 
-Model and effort evidence captured against authenticated `agy`
-`models` and `--help` on 2026-09-07. The catalog includes Gemini 3.8 Flash;
-omitted model options preserve agy's native default selection.
-Both `examples/simple_run.exs` and `examples/simple_stream.exs` returned their
-exact expected responses. Other rows retain their offline evidence boundary.
+On 2026-11-18, authenticated `agy` 1.5.10 advertised 18 account-specific
+slugs. The live selection was Gemini 4 Hydrogen XHigh. The SDK discovery
+example preserved the Argon Medium slug, and the live simple run returned
+its expected marker. The same account rejected Carbon. The SDK returned a
+typed rejection with the requested slug and no automatic fallback.
 
 | Behavior | Source/evidence | Support boundary |
 | --- | --- | --- |
 | Gemini 3.8 Flash model and effort | Live `agy models`, `agy --help`, exact-OK CLI smoke at low effort; SDK options and argument tests | `--model gemini-3.8-flash --effort low/medium/high`; malformed effort and conflicting selections rejected |
+| Account model discovery | Authenticated `agy models`, SDK model selection example, and Core snapshot fixture | Exact IDs and labels in account order |
+| Gemini 4 Carbon | [Google Antigravity CLI reference](https://antigravity.google/docs/cli/headless/) and Core argument fixture | Selectable by eligible accounts. Live execution requires an eligible account. |
 | plain-text print output | Core Antigravity profile and `TypesTest` | non-empty lines become byte-faithful assistant deltas |
 | sandbox | `ArgBuilderTest` and `CLITest` | renders `--sandbox`; does not claim tools/MCP/prompts are absent |
 | permission bypass | `ArgBuilderTest` and `CLITest` | renders `--dangerously-skip-permissions` |

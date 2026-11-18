@@ -13,21 +13,21 @@ defmodule AntigravityCliSdk.ReleasePreparationTest do
     :inference
   ]
 
-  test "release metadata targets Antigravity CLI SDK 0.4.2 on Elixir 1.19" do
+  test "release metadata targets Antigravity CLI SDK 0.5.0 on Elixir 1.19" do
     project = Mix.Project.config()
 
-    assert project[:version] == "0.4.2"
+    assert project[:version] == "0.5.0"
     assert project[:elixir] == "~> 1.19"
-    assert project[:docs][:source_ref] == "v0.4.2"
+    assert project[:docs][:source_ref] == "v0.5.0"
     assert project[:homepage_url] == "https://hex.pm/packages/antigravity_cli_sdk"
   end
 
-  test "publish mode selects cli_subprocess_core 0.9.3 from Hex" do
-    assert {:cli_subprocess_core, "~> 0.9.5"} =
+  test "publish mode selects cli_subprocess_core 0.10.0 from Hex" do
+    assert {:cli_subprocess_core, "~> 0.10.0"} =
              List.keyfind(standalone_deps(), :cli_subprocess_core, 0)
   end
 
-  test "package metadata is complete for the 0.4.2 Hex release" do
+  test "package metadata is complete for the 0.5.0 Hex release" do
     package = Mix.Project.config()[:package]
 
     assert package[:name] == "antigravity_cli_sdk"

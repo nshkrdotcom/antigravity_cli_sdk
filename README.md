@@ -9,7 +9,7 @@
 
 # AntigravityCliSdk
 
-Next release: **0.4.2** (unreleased).
+Current release: **0.5.0**.
 
 `AntigravityCliSdk` is the supported Google coding-agent SDK for the
 Antigravity CLI (`agy`). It gives Elixir applications a typed streaming API,
@@ -24,10 +24,21 @@ The SDK does not reimplement subprocess handling. It uses
 `cli_subprocess_core`, the same core runtime that powers ASM's common
 Antigravity lane.
 
+## Antigravity model selection
+
+Use `AntigravityCliSdk.Models.list_available/1` to load the signed-in account's exact model IDs in CLI order.
+The bundled catalog also includes Gemini 4 Carbon for eligible Google AI Ultra
+and Enterprise accounts. Select an advertised slug to pin a model. An omitted
+model, `default`, or `auto` delegates selection to `agy`. Refresh discovery
+after changing accounts. A failed discovery query returns an error, while a
+successful empty list returns `{:ok, []}`. A rejected explicit selection
+returns a `:model_rejected` error with the requested model in its context.
+Refresh discovery and choose another advertised model if needed.
+
 ## Installation
 
-AntigravityCliSdk 0.4.2 requires Elixir 1.19 or later and
-`cli_subprocess_core ~> 0.9.5`.
+AntigravityCliSdk 0.5.0 requires Elixir 1.19 or later and
+`cli_subprocess_core ~> 0.10.0`.
 
 Sibling checkout during local development:
 
@@ -44,7 +55,7 @@ Hex dependency after publish:
 ```elixir
 def deps do
   [
-    {:antigravity_cli_sdk, "~> 0.4.2"}
+    {:antigravity_cli_sdk, "~> 0.5.0"}
   ]
 end
 ```

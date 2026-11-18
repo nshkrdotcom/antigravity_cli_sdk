@@ -15,6 +15,7 @@ defmodule AntigravityCliSdk.Error do
           | :config_invalid
           | :execution_failed
           | :input_error
+          | :model_rejected
           | :no_result
           | :parse_error
           | :run_deadline_exceeded
@@ -42,6 +43,7 @@ defmodule AntigravityCliSdk.Error do
     "config_invalid" => :config_invalid,
     "execution_failed" => :execution_failed,
     "input_error" => :input_error,
+    "model_rejected" => :model_rejected,
     "no_result" => :no_result,
     "parse_error" => :parse_error,
     "run_deadline_exceeded" => :run_deadline_exceeded,
